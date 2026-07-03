@@ -24,11 +24,13 @@ if place:
             temperatures = [dict["main"]["temp"] for dict in filtered_data]
             dates = [
                 datetime.fromtimestamp(dict["dt"], tz=timezone.utc)
-                .astimezone(ZoneInfo("America/New_York"))
+                .astimezone(ZoneInfo("America/Denver"))
+                .replace(tzinfo=None)
                 for dict in filtered_data
             ]
             figure = px.line(x=dates, y=temperatures,
                             labels={"x":"Date", "y": "Temperature (F)"})
+            figure.update_xaxes(tickformat="%I:%M %p<br>%b %-d, %Y")
             st.plotly_chart(figure)
 
         if option == "Sky":
