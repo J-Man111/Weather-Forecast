@@ -1,7 +1,5 @@
 import streamlit as st
 import requests
-import pytz
-from datetime import datetime
 
 API_KEY = "c91fafc9ff578769af657983cf0b9b2b"
 
