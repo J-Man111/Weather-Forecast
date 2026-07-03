@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 import streamlit as st
 import plotly.express as px
 from backend import get_data
@@ -20,7 +22,11 @@ if place:
         if option == "Tempurature":
             #Create a temperature plot
             temperatures = [dict["main"]["temp"] for dict in filtered_data]
-            dates = [dict["dt_txt"] for dict in filtered_data]
+            dates = [
+                datetime.fromtimestamp(dict["dt"], tz=timezone.utc)
+                .astimezone(ZoneInfo("America/New_York"))
+                for dict in filtered_data
+            ]
             figure = px.line(x=dates, y=temperatures,
                             labels={"x":"Date", "y": "Temperature (F)"})
             st.plotly_chart(figure)
